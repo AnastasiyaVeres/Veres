@@ -1,0 +1,100 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class SkobkiParnie {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine();
+		char[] arrayStr = str.toCharArray(); // разбиваем строку на массив символов
+		Stack<Character> a = new Stack<Character>(); // создаем стек, куда будем помещать скобки
+		boolean error = false;
+		
+		for (char i : arrayStr)  // для каждого символа в массиве
+		{  
+			if(i == ')' || i == '}' || i == '>' || i == ']') // если символ является закрывающей скобкой, то стек пустой
+			{
+				error = true;
+				break; //выходим из цикла, т.к. закрывающая скобка не может идти первой
+			}
+				if (i == '(' || i == '{' || i == '<' || i == '[') // если символ является открывающей скобкой 
+            			{
+            				a.push(i); // помещаем скобку в вершину стека
+            			}
+           		 	else if (i == ')' || i == '}' || i == '>' || i == ']') //иначе если символ является закрывающей скобкой
+            			{
+                			if(a.empty()) 
+                			{
+                				error = true;
+                   				break; //выходим из цикла, если стек пустой
+                			} 
+                			else 
+                			{
+                   				 if(i == ')') // если символ это закрывающая скобка
+                    				{
+                        				if (a.peek() == '(') //если наверху стека находится открывающая скобка
+                       	 				{
+                            					a.pop(); // извлекаем скобку удаляя из стека, т.е. удаляем корректные пары скобок
+                        				} 
+                        				else 
+                        				{
+                        					error = true;
+                            					break; //иначе выходим из цикла
+                        				}
+                    				} 
+                    				else if(i == '}') 
+                    				{
+                        				if (a.peek() == '{') 
+                        				{
+                            					a.pop();
+                        				} 
+                        				else
+                        				{
+                        					error = true;
+                        					break;
+                        				}
+                    				} 
+                    				else if(i == '>') 
+                    				{
+                        				if (a.peek() == '<') 
+                        				{
+                            					a.pop();
+                        				} 
+                        				else 
+                        				{
+                        					error = true;
+                            					break;
+                        				}
+                    				} 
+                    				else if(i == '[') 
+                    				{
+                        				if (a.peek() == ']') 
+                        				{
+                            					a.pop();
+                        				} 
+                        				else 
+                        				{
+                        					error = true;
+                            					break;
+                        				}
+                    				}
+                			}
+            			}
+        		}
+		if (error == false)
+	    	{
+			if(a.empty()) //если стек пустой
+			{
+				System.out.println("скобки расставлены верно!");
+			}
+           	 else
+            	{
+            	System.out.println("скобки расставлены не верно");
+            	}
+        }
+		else
+		{
+			System.out.println("скобки расставлены не верно");
+	    }
+	}
+}
